@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os/exec"
 )
 
 type Question struct {
@@ -24,6 +24,16 @@ type data struct {
 	Results []Question `json:"results"`
 }
 
+func sayIt(thingToSay string) {
+	cmd := exec.Command("say", thingToSay)
+
+	err := cmd.Run()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func getQuestions() {
 	data_obj := data{}
 	url := "https://opentdb.com/api.php?amount=10&category=27&difficulty=easy&type=boolean"
@@ -40,8 +50,9 @@ func getQuestions() {
 	if err != nil {
 		log.Fatal(jsonErr)
 	}
-	for _, res := range data_obj.Results {
-		fmt.Printf("Question: %s", res.Question)
+	q1 := data_obj.Results[0]
+	if q1.Type == "boolean" {
+		sayIt("True or false: " + q1.Question)
 	}
 }
 
