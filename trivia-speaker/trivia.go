@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os/exec"
 )
 
 type Question struct {
@@ -17,12 +17,25 @@ type Question struct {
 	IncorrectAnswers []string
 }
 
-type Questions struct {
+// Medium article for reference
+// https://medium.com/nerd-for-tech/your-first-golang-rest-api-client-287c8dc0961
+// this can handle unknown json - []map[string]interface{}
+type data struct {
 	Results []Question `json:"results"`
 }
 
+func sayIt(thingToSay string) {
+	cmd := exec.Command("say", thingToSay)
+
+	err := cmd.Run()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func getQuestions() {
-	var data []Questions
+	data_obj := data{}
 	url := "https://opentdb.com/api.php?amount=10&category=27&difficulty=easy&type=boolean"
 	res, err := http.Get(url)
 	if err != nil {
@@ -32,15 +45,14 @@ func getQuestions() {
 	if readErr != nil {
 		log.Fatal(readErr)
 	}
-	fmt.Println(string(body))
-	jsonErr := json.Unmarshal([]byte(string(body)), &data)
+	// fmt.Println(string(body))
+	jsonErr := json.Unmarshal(body, &data_obj)
 	if err != nil {
 		log.Fatal(jsonErr)
 	}
-	fmt.Println("hey")
-	for _, res := range data {
-		fmt.Println(res.Results[0])
-		// fmt.Printf("Question: %s", res)
+	q1 := data_obj.Results[0]
+	if q1.Type == "boolean" {
+		sayIt("True or false: " + q1.Question)
 	}
 }
 
