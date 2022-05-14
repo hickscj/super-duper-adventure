@@ -17,6 +17,9 @@ type Question struct {
 	IncorrectAnswers []string
 }
 
+// Medium article for reference
+// https://medium.com/nerd-for-tech/your-first-golang-rest-api-client-287c8dc0961
+// this can handle unknown json - []map[string]interface{}
 type data struct {
 	Results []Question `json:"results"`
 }
