@@ -17,12 +17,12 @@ type Question struct {
 	IncorrectAnswers []string
 }
 
-type Questions struct {
+type data struct {
 	Results []Question `json:"results"`
 }
 
 func getQuestions() {
-	var data []Questions
+	data_obj := data{}
 	url := "https://opentdb.com/api.php?amount=10&category=27&difficulty=easy&type=boolean"
 	res, err := http.Get(url)
 	if err != nil {
@@ -32,15 +32,13 @@ func getQuestions() {
 	if readErr != nil {
 		log.Fatal(readErr)
 	}
-	fmt.Println(string(body))
-	jsonErr := json.Unmarshal([]byte(string(body)), &data)
+	// fmt.Println(string(body))
+	jsonErr := json.Unmarshal(body, &data_obj)
 	if err != nil {
 		log.Fatal(jsonErr)
 	}
-	fmt.Println("hey")
-	for _, res := range data {
-		fmt.Println(res.Results[0])
-		// fmt.Printf("Question: %s", res)
+	for _, res := range data_obj.Results {
+		fmt.Printf("Question: %s", res.Question)
 	}
 }
 
