@@ -37,7 +37,7 @@ func sayIt(thingToSay string) {
 
 func getQuestions() {
 	data_obj := data{}
-	url := "https://opentdb.com/api.php?amount=10&category=27&difficulty=easy&type=boolean"
+	url := "https://opentdb.com/api.php?amount=50&category=27&difficulty=easy&type=boolean"
 	res, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
