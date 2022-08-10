@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 const (
-	a = 1
+	a     = 1
 	b int = 2
 )
 
@@ -32,8 +32,37 @@ func ex3() {
 	fmt.Printf("%T, %v\n", b, b)
 }
 
+func ex4() {
+	z := 234
+	fmt.Printf("%d\t%b\t%#x\n", z, z, z)
+	b := z << 1
+	fmt.Printf("%d\t%b\t%#x\n", b, b, b)
+}
+
+func ex5() {
+	s := `raw string
+lit
+er
+al
+`
+	fmt.Println(s)
+}
+
+func ex6() {
+	const (
+		d = 2022 + iota
+		e = 2022 + iota
+		f = 2022 + iota
+		g = 2022 + iota
+	)
+	fmt.Println(d, e, f, g)
+}
+
 func main() {
 	ex1()
 	ex2()
 	ex3()
+	ex4()
+	ex5()
+	ex6()
 }
