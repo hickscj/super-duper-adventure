@@ -6,15 +6,16 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
+	"time"
 )
 
 type Question struct {
-	Category         string `json:"category"`
-	Type             string `json:"type"`
-	Difficulty       string `json:"difficulty"`
-	Question         string `json:"question"`
-	CorrectAnswer    string
-	IncorrectAnswers []string
+	Category         string   `json:"category"`
+	Type             string   `json:"type"`
+	Difficulty       string   `json:"difficulty"`
+	Question         string   `json:"question"`
+	CorrectAnswer    string   `json:"correct_answer"`
+	IncorrectAnswers []string `json:"incorrect_answers"`
 }
 
 // Medium article for reference
@@ -36,7 +37,7 @@ func sayIt(thingToSay string) {
 
 func getQuestions() {
 	data_obj := data{}
-	url := "https://opentdb.com/api.php?amount=10&category=27&difficulty=easy&type=boolean"
+	url := "https://opentdb.com/api.php?amount=50&category=27&difficulty=easy&type=boolean"
 	res, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -54,6 +55,8 @@ func getQuestions() {
 	if q1.Type == "boolean" {
 		sayIt("True or false: " + q1.Question)
 	}
+	time.Sleep(10 * time.Second)
+	sayIt(q1.CorrectAnswer)
 }
 
 func main() {
